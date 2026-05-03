@@ -1,0 +1,16 @@
+# Core deep learning
+torch
+transformers
+datasets
+huggingface_hub
+
+# Fine-tuning & efficient training
+trl @ git+https://github.com/huggingface/trl.git
+peft
+bitsandbytes
+
+# Vision-language utilities
+qwen-vl-utils
+
+# Experiment tracking
+trackio

@@ -1,0 +1,63 @@
+__init__.py for every folder under src
+src/
+    model/
+        llm/
+            model_name.py
+                # Load any LLM from huggingface, wrap in nn.Module (1 per model)
+            builder.py
+                # Define inference/generation, build the nn.Module for a specific LLM
+            attention_patch.py
+                # Replace forward of attention module in LLM (this is how to implement DSA/FlashAttn)
+        vision/
+            semantic_name.py
+                # Load any semantic image encoder from huggingface, wrap in nn.Module (1 per model)
+            pixel_name.py
+                # Load any pixel image encoder from huggingface, wrap in nn.Module (1 per model)
+            builder.py
+                # Define encoder inference, build the nn.Module for a specific joint hybrid encoder combo
+        connector/
+            condenser.py
+                # Define nn.Module for token condensors
+            selector.py
+                # Define nn.Module for token selectors
+            projector.py
+                # Define nn.Module for token projectors
+            builder.py
+                # Define and build nn.Module for entire connector
+        builder.py
+            # Thin builder nn.Module that combines llm, encoder, and connector modules
+        multimodal.py
+            # Define/build the combined encoder and connector. Structure output to fit the LLM
+    train/
+        run_train.py
+            # run training
+        train.py
+            # Create dataclasses, helpers, model initialization, and main training loop (specify attn type)
+        train_step.py
+            # Helpers, optimizer, saving/checkpoint, single train step with logging. This is where most acceleration is handled
+        train_eval.py
+            # Class to itermittently pause training and heavy-evaluate
+    data/
+        preprocess.py
+            # Functions to change content and format of images and text into model input
+        dataset.py
+            # Lazy PyTorch dataset for structuring, preprocessing, and tokenizing from datapaths
+        collator.py
+            # Collate batches to same length
+        sampler.py
+            # Make a datasampler that groups similar-length inputs
+    scripts/
+        trainrun.sh
+            # Executable training scripts
+        datapaths.yaml
+            # Paths to dataset jsons
+    constants.py
+        # Defines constants for model, training, etc
+    conversation.py
+        # Class to format image/text conversations for different LLMs for prediction 
+    predict.py
+        # Define functions/class to make load model, take inputs, and return predictions
+    mm_utils.py
+        # Utility functions for handling multi-modal inputs
+    utils.py
+        # Misc. utility functions
