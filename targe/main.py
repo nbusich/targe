@@ -30,6 +30,7 @@ def train_main(cfg: DictConfig) -> None:
         if trainer == "sft":
             sft_train(model, processor, train_ds, eval_ds, test_ds, cfg)
         elif trainer == "custom":
+            print("entering training")
             custom_train(model, processor, train_ds, eval_ds, test_ds, cfg)
         else:
             raise ValueError(f"Unknown trainer={trainer!r}. Use 'sft' or 'custom'.")

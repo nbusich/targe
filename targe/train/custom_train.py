@@ -119,6 +119,7 @@ def custom_train(model, processor, train_ds, eval_ds, test_ds, cfg: DictConfig) 
     current_step = 0
     should_stop = False
 
+    print('starting training loop')
     for epoch in range(num_epochs):
         for batch in train_dataloader:
             with accelerator.accumulate(model):

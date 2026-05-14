@@ -97,7 +97,7 @@ class SelectorCompressorPipeline(nn.Module):
         B, N, D = x.shape
         
         # 1. Get routing masks (Shape: B, N, 1) and probs
-        _, _, keep_mask, compress_mask, keep_probs = self.selector(x, tau)
+        _, _, keep_mask, compress_mask, keep_probs = self.selector(x, self.tau)
 
         # 2. BYPASS PATH (Soft Masking)
         # Keep tensor size (B, N, D), zero out rejected tokens. 
