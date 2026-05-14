@@ -1,0 +1,16 @@
+model_id: "HuggingFaceTB/SmolVLM-Instruct"
+quantize_4bit: true
+freeze_backbone: true
+attn_implementation: "sdpa"
+
+# _target_ instantiates classes automatically via hydra.utils.instantiate().
+# `config` (model.config) and `device` are filled in at build time, not from yaml.
+connector:
+  _target_: targe.model.connector.Idefics3SelectorConnector
+  custom_params:
+    _target_: targe.model.connector.SmolVLMInstructConnectorConfig
+    embed_dim: 1152
+    num_selector_heads: 8
+    selector_hidden_dim: 2048
+    num_lqv: 32
+    k_select: 360

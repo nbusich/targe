@@ -48,7 +48,7 @@ def evaluate_on_test(model, processor, test_ds, device: str = "cuda") -> tuple[d
     return metrics, records
 
 
-def _push_to_hub(hub_cfg: DictConfig, output_dir: str, results_path: Path) -> None:
+def push_to_hub(hub_cfg: DictConfig, output_dir: str, results_path: Path) -> None:
     if not hub_cfg.get("enabled", False):
         print("[hub] hub.enabled=false, skipping upload")
         return
@@ -124,6 +124,6 @@ def train(model, processor, train_ds, eval_ds, test_ds, cfg: DictConfig) -> None
     with results_path.open("w") as f:
         json.dump({"metrics": metrics, "records": records}, f, indent=2)
 
-    _push_to_hub(cfg.hub, output_dir, results_path)
+    push_to_hub(cfg.hub, output_dir, results_path)
 
     trackio.finish()

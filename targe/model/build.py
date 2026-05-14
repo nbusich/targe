@@ -24,6 +24,7 @@ def build_model(cfg: DictConfig):
     connector_cls = get_class(cfg.connector._target_)
     connector = connector_cls(model.config, custom_params)
     connector._init_weights()
+    connector = torch.compile(connector)
     model.model.connector = connector.to(device=model.device, dtype=torch.bfloat16)
 
     if cfg.get("freeze_backbone", True):

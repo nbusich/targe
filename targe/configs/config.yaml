@@ -5,11 +5,15 @@ defaults:
   - data: full_chart
   - tracking: trackio_hf
   - hub: default
+  - custom: default
   - _self_
 
 # Which stages to run
 train: true
 eval: false
+
+# Which trainer to dispatch to when train=true: "sft" (TRL SFTTrainer) or "custom" (hand-rolled accelerate loop)
+trainer: sft
 
 # Dry-run smoke test: 10 samples, 1 step, 1 metric, 1 dummy checkpoint.
 # Pair with `training=sft_dry` (or use `+experiment=dry`) to keep the trainer step count small.

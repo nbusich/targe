@@ -2,9 +2,10 @@
 Entry point for training/eval.
 
 Everything is hydra-controlled. Examples:
-    python -m targe.main                                  # full training run
-    python -m targe.main +experiment=dry                  # full dry-run preset
-    python -m targe.main training=sft_dry dry_run=true    # à la carte dry overrides
+    python -m targe.main                                  # full SFT training run
+    python -m targe.main trainer=custom                   # hand-rolled accelerate loop
+    python -m targe.main +experiment=dry                  # SFT dry-run preset
+    python -m targe.main +experiment=dry trainer=custom   # custom-loop dry-run
     python -m targe.main hub.repo_id=usich-n/foo train_output_dir=runs/foo
     python -m targe.main hub.enabled=false                # skip Hub upload
 """
@@ -13,7 +14,8 @@ from omegaconf import DictConfig, OmegaConf
 
 from targe.data.chartqa import load_chartqa
 from targe.model.build import build_model
-from targe.train.train_mm import train as train_stage
+from targe.train.custom_train import custom_train
+from targe.train.train_mm import train as sft_train
 
 
 @hydra.main(version_base=None, config_path="configs", config_name="config")
@@ -24,10 +26,17 @@ def train_main(cfg: DictConfig) -> None:
     train_ds, eval_ds, test_ds = load_chartqa(cfg.data)
 
     if cfg.get("train", False):
-        train_stage(model, processor, train_ds, eval_ds, test_ds, cfg)
+        trainer = cfg.get("trainer", "sft")
+        if trainer == "sft":
+            sft_train(model, processor, train_ds, eval_ds, test_ds, cfg)
+        elif trainer == "custom":
+            custom_train(model, processor, train_ds, eval_ds, test_ds, cfg)
+        else:
+            raise ValueError(f"Unknown trainer={trainer!r}. Use 'sft' or 'custom'.")
 
     if cfg.get("eval", False):
         raise NotImplementedError("standalone eval stage not wired yet")
+
 
 if __name__ == "__main__":
     train_main()
