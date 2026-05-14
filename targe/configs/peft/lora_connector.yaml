@@ -1,0 +1,5 @@
+_target_: peft.LoraConfig
+r: 1
+lora_alpha: 1
+target_modules: ["q_proj"]
+modules_to_save: ["connector"]

@@ -1,0 +1,13 @@
+# Trackio is a wandb-compatible tracker that hosts the dashboard on a HuggingFace
+# Space and persists metrics to a HF Dataset. See https://github.com/gradio-app/trackio
+project: "targe-chartqa"
+
+# Optional HF Space that hosts the dashboard. If null, trackio runs locally
+# and prints a URL you can open. Set to "<username>/<space-name>" to deploy.
+space_id: null
+
+# Optional HF Dataset id used to persist metrics. If null, trackio picks a default.
+dataset_id: null
+
+# Run name; null lets trackio auto-generate one.
+run_name: null

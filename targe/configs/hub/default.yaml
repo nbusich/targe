@@ -1,0 +1,16 @@
+# HuggingFace Hub destination for model checkpoints + test-result artifacts.
+#
+# repo_id MUST be in the form "<your-hf-username>/<repo-name>". Override on the
+# command line: `python -m targe.main hub.repo_id=usich-n/targe-chartqa-run3`.
+#
+# Set `enabled: false` to skip the upload entirely (useful for local-only debugging).
+enabled: true
+repo_id: "usich-n/targe-chartqa"
+private: true
+
+# Subpaths inside the repo where each artifact type lands.
+checkpoint_path_in_repo: "checkpoint"
+test_results_path_in_repo: "evaluation/test_results.json"
+
+# Commit message prefix used by HfApi when pushing.
+commit_message: "targe run upload"

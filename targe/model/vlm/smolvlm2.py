@@ -1,11 +1,8 @@
 import torch
 from transformers import Idefics3ForConditionalGeneration, AutoProcessor, BitsAndBytesConfig
 
-DEFAULT_MODEL_ID = "HuggingFaceTB/SmolVLM-Instruct"
-
-
 def load_smolvlm(
-    model_id: str = DEFAULT_MODEL_ID,
+    model_id: str = "HuggingFaceTB/SmolVLM-Instruct",
     quantize_4bit: bool = True,
     attn_implementation: str = "sdpa",
 ):

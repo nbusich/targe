@@ -1,0 +1,11 @@
+# Sugar group: `python -m targe.main +experiment=dry` flips every dry-run knob
+# at once — small sample budget, single training step, and no Hub push.
+# @package _global_
+defaults:
+  - override /training: sft_dry
+
+dry_run: true
+dry_run_samples: 10
+
+hub:
+  enabled: false
