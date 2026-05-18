@@ -73,9 +73,9 @@ def custom_train(model, processor, train_ds, eval_ds, test_ds, cfg: DictConfig) 
     cfg_custom: DictConfig = cfg.custom
 
     if dry_run:
-        train_ds = train_ds[:dry_run_samples]
-        eval_ds = eval_ds[:dry_run_samples]
-        test_ds = test_ds[:dry_run_samples]
+      train_ds = train_ds.select(range(min(len(train_ds), dry_run_samples)))
+      eval_ds = eval_ds.select(range(min(len(eval_ds), dry_run_samples)))
+      test_ds = test_ds.select(range(min(len(test_ds), dry_run_samples)))
 
     print_trainable_breakdown(model)
 
@@ -97,8 +97,7 @@ def custom_train(model, processor, train_ds, eval_ds, test_ds, cfg: DictConfig) 
     # Model is already on GPU via device_map="auto" (+ optional bnb 4-bit), so we don't
     # re-prepare it — accelerate only needs the optimizer + dataloader to wire grads
     # and auto-move batches to the active device.
-    optimizer, train_dataloader = accelerator.prepare(optimizer, train_dataloader)
-
+    model, optimizer, train_dataloader = accelerator.prepare(model, optimizer, train_dataloader)
     trackio.init(
         project=cfg.tracking.get("project", "targe-chartqa"),
         name=cfg.tracking.get("run_name") or ("dryrun-custom" if dry_run else "custom"),

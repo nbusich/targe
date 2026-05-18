@@ -1,17 +1,14 @@
-# Becomes a trl.SFTConfig via hydra.utils.instantiate().
-# `output_dir` is overridden at runtime from the top-level `train_output_dir`,
-# and `push_to_hub` is intentionally false — we push explicitly via HfApi (see configs/hub).
 _target_: trl.SFTConfig
 output_dir: "smolvlm-instruct-trl-sft-ChartQA"
 num_train_epochs: 10
-per_device_train_batch_size: 4
-gradient_accumulation_steps: 4
+per_device_train_batch_size: 16
+gradient_accumulation_steps: 2
 warmup_steps: 50
-learning_rate: 1e-4
+learning_rate: 5e-5
 weight_decay: 0.01
-logging_steps: 25
+logging_steps: 20
 save_strategy: "steps"
-save_steps: 12
+save_steps: 250
 save_total_limit: 2
 optim: "adamw_torch_fused"
 bf16: true

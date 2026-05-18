@@ -16,7 +16,9 @@ from targe.data.chartqa import load_chartqa
 from targe.model.build import build_model
 from targe.train.custom_train import custom_train
 from targe.train.train_mm import train as sft_train
+from PIL import ImageFile
 
+ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 @hydra.main(version_base=None, config_path="configs", config_name="config")
 def train_main(cfg: DictConfig) -> None:
